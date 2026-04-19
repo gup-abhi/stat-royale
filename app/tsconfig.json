@@ -2,7 +2,6 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "strict": true,
-    "baseUrl": ".",
     "paths": {
       "@shared/*": ["../shared/*"],
       "@api/*": ["./src/api/*"],
