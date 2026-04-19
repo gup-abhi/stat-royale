@@ -1,0 +1,3 @@
+-- Seed: cards table
+-- Populated programmatically via npm run db:seed (calls Supercell GET /cards).
+-- This file is a placeholder; the actual seed logic lives in server/src/db/seed.ts.
