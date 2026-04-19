@@ -11,7 +11,7 @@
     "db:reset": "ts-node src/db/reset.ts",
     "jobs:poll-players": "ts-node src/jobs/poll-players.job.ts",
     "jobs:poll-clans": "ts-node src/jobs/poll-clans.job.ts",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests --forceExit"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -32,6 +32,12 @@
     "testEnvironment": "node",
     "testMatch": ["**/src/**/*.test.ts"],
     "setupFiles": ["<rootDir>/src/test-setup.ts"],
+    "moduleNameMapper": {
+      "^ioredis$": "<rootDir>/src/__mocks__/ioredis.ts",
+      "^../db/pool$": "<rootDir>/src/__mocks__/pool.ts",
+      "^../../db/pool$": "<rootDir>/src/__mocks__/pool.ts",
+      "@shared/(.*)": "<rootDir>/../shared/$1"
+    },
     "transform": {
       "^.+\\.tsx?$": ["ts-jest", { "tsconfig": "tsconfig.test.json" }]
     },
