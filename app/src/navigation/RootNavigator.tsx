@@ -1,1 +1,1 @@
-// TODO: MVP-021 — root navigator (bottom tabs)
+// TODO: MVP-012 — auth gate: shows Auth stack if not logged in, App stack if logged in

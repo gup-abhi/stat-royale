@@ -1,3 +1,1 @@
-// No auth system — this file is intentionally empty.
-// Saved players live in savedPlayers.store.ts
-export {};
+// TODO: MVP-012 — Zustand store: { user, accessToken, login, logout }

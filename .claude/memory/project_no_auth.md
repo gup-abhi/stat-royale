@@ -1,11 +1,11 @@
 ---
-name: No auth — player tag saved locally
-description: ClashPulse has no user authentication. Player tags are saved on-device. Backend is a pure Supercell API cache proxy.
+name: Following architecture.md exactly — auth included
+description: Scaffold follows architecture.md fully, including auth tables and routes. The no-auth idea was discussed but the decision was to stick with the documented architecture.
 type: project
 ---
 
-No user auth system (no registration, login, JWT, refresh tokens). Users just enter a player tag and the app shows stats. "Saved players" is stored locally on the device (Zustand + AsyncStorage), not in any backend database.
+The scaffold follows architecture.md exactly — auth system (users, refresh_token_blacklist, saved_players, saved_decks, JWT routes) is included in the DB schema and server routes. Do not strip auth from the codebase.
 
-**Why:** User explicitly decided this — simpler UX, no sign-up friction for an analytics app.
+**Why:** User initially said no auth was needed, then decided to follow architecture.md as the source of truth.
 
-**How to apply:** Do not build auth routes, user tables, or saved-players backend endpoints. The only DB table needed for MVP is `cards` (seeded from Supercell API). Saved players list lives in `app/src/store/savedPlayers.store.ts` persisted with AsyncStorage.
+**How to apply:** Implement auth as designed in architecture.md when MVP-010/011/012 tasks are reached.
