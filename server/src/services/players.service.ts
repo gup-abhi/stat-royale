@@ -1,7 +1,7 @@
 import * as supercell from './supercell.service';
 import { normaliseTag } from '../utils/normalise-tag';
 import { InvalidTagError } from '../utils/supercell-errors';
-import { Battle, BattleType, BattleDeckCard, Player } from '../../../shared/types';
+import { Battle, BattleType, BattleDeckCard, Player, UpcomingChest } from '../../../shared/types';
 
 const TAG_REGEX = /^[0-9A-Z]{3,10}$/;
 
@@ -77,6 +77,16 @@ function mapDeckCard(c: { id: number; name: string; level: number; iconUrls?: { 
     level: c.level,
     iconUrl: c.iconUrls?.medium ?? '',
   };
+}
+
+export async function getPlayerChests(tag: string): Promise<UpcomingChest[]> {
+  validateTag(tag);
+  const raw = await supercell.getPlayerChests(tag);
+  return raw.map((c) => ({
+    index: c.index,
+    name: c.name,
+    iconUrl: undefined,
+  }));
 }
 
 export async function getPlayerBattles(tag: string): Promise<Battle[]> {

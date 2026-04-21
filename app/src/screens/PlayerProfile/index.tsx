@@ -11,7 +11,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamList } from '@navigation/types';
-import { usePlayer, usePlayerBattles } from '@hooks/usePlayer';
+import { usePlayer, usePlayerBattles, usePlayerChests } from '@hooks/usePlayer';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
 import { spacing } from '@theme/spacing';
@@ -20,6 +20,7 @@ import ErrorState from '@components/ErrorState';
 import StatsCard from './components/StatsCard';
 import CardCollection from './components/CardCollection';
 import BattleLog from './components/BattleLog';
+import ChestCycle from './components/ChestCycle';
 
 type Props = StackScreenProps<AppStackParamList, 'PlayerProfile'>;
 
@@ -28,6 +29,7 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
   const queryClient = useQueryClient();
   const { data: player, isLoading, isError, error, refetch, isFetching } = usePlayer(tag);
   const { data: battles = [] } = usePlayerBattles(tag);
+  const { data: chests = [] } = usePlayerChests(tag);
 
   const onRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ['player', tag] });
@@ -69,6 +71,7 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
       >
         <StatsCard player={player} />
         <SeasonSection player={player} />
+        {chests.length > 0 && <ChestCycle chests={chests} />}
         <BattleLog battles={battles} />
         <CardCollection cards={player.cards} />
       </ScrollView>
