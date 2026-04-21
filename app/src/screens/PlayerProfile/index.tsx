@@ -19,6 +19,8 @@ import { typography } from '@theme/typography';
 import { spacing } from '@theme/spacing';
 import LoadingSpinner from '@components/LoadingSpinner';
 import ErrorState from '@components/ErrorState';
+import AdBanner from '@components/AdBanner';
+import { useAds } from '@hooks/useAds';
 import StatsCard from './components/StatsCard';
 import CardCollection from './components/CardCollection';
 import BattleLog from './components/BattleLog';
@@ -34,6 +36,7 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
   const { data: chests = [] } = usePlayerChests(tag);
   const { accessToken } = useAuthStore();
   const { isSaved, save, remove } = useSavedPlayersStore();
+  const { showBanner } = useAds();
 
   const normalTag = tag.trim().toUpperCase().replace(/^#/, '');
   const saved = isSaved(normalTag);
@@ -98,6 +101,7 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
         {chests.length > 0 && <ChestCycle chests={chests} />}
         <BattleLog battles={battles} />
         <CardCollection cards={player.cards} />
+        {showBanner && <AdBanner />}
       </ScrollView>
     </View>
   );

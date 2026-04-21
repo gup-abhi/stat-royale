@@ -18,6 +18,8 @@ import { spacing } from '@theme/spacing';
 import LoadingSpinner from '@components/LoadingSpinner';
 import ErrorState from '@components/ErrorState';
 import TrophyBadge from '@components/TrophyBadge';
+import AdBanner from '@components/AdBanner';
+import { useAds } from '@hooks/useAds';
 import { timeAgo } from '@utils/time-ago';
 import { formatNumber } from '@utils/format-number';
 
@@ -37,6 +39,7 @@ export default function ClanProfileScreen({ route, navigation }: Props) {
   const queryClient = useQueryClient();
   const { data: clan, isLoading, isError, refetch, isFetching } = useClan(tag);
   const [sortKey, setSortKey] = useState<SortKey>('trophies');
+  const { showBanner } = useAds();
 
   const sortedMembers = useMemo(() => {
     if (!clan) return [];
@@ -93,6 +96,7 @@ export default function ClanProfileScreen({ route, navigation }: Props) {
             onPress={() => navigation.push('PlayerProfile', { tag: item.tag })}
           />
         )}
+        ListFooterComponent={showBanner ? <AdBanner /> : null}
         contentContainerStyle={styles.list}
       />
     </View>
