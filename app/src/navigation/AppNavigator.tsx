@@ -6,6 +6,7 @@ import { AppTabParamList, AppStackParamList } from './types';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
 import PlayerProfileScreen from '@screens/PlayerProfile';
+import ClanProfileScreen from '@screens/ClanProfile';
 
 function Placeholder({ name }: { name: string }) {
   return (
@@ -44,6 +45,7 @@ export default function AppNavigator() {
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name="Tabs" component={AppTabs} />
       <AppStack.Screen name="PlayerProfile" component={PlayerProfileScreen} />
+      <AppStack.Screen name="ClanProfile" component={ClanProfileScreen} />
     </AppStack.Navigator>
   );
 }

@@ -17,6 +17,7 @@ export type AppTabParamList = {
 export type AppStackParamList = {
   Tabs: undefined;
   PlayerProfile: { tag: string };
+  ClanProfile: { tag: string };
 };
 
 export type AuthNavigationProp<T extends keyof AuthStackParamList> =

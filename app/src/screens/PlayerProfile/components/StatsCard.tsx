@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Player } from '../../../../../shared/types';
+import { AppStackParamList } from '@navigation/types';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
 import { spacing } from '@theme/spacing';
@@ -23,12 +26,15 @@ function WinRateRing({ pct }: { pct: number }) {
 }
 
 export default function StatsCard({ player }: Props) {
+  const navigation = useNavigation<StackNavigationProp<AppStackParamList>>();
   return (
     <View style={styles.card}>
       <View style={styles.left}>
         <Text style={styles.name}>{player.name}</Text>
         {player.clan && (
-          <Text style={styles.clan}>{player.clan.name}</Text>
+          <TouchableOpacity onPress={() => navigation.push('ClanProfile', { tag: player.clan!.tag })}>
+            <Text style={styles.clan}>{player.clan.name}</Text>
+          </TouchableOpacity>
         )}
         <View style={styles.trophyRow}>
           <TrophyBadge trophies={player.trophies} />
