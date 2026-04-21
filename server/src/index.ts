@@ -11,6 +11,7 @@ import { leaderboardRouter } from './routes/leaderboard.routes';
 import { savedPlayersRouter } from './routes/savedPlayers.routes';
 import { errorHandler } from './middleware/errorHandler.middleware';
 import { rateLimitMiddleware } from './middleware/rateLimit.middleware';
+import { requestLogger } from './middleware/requestLogger.middleware';
 import { logger } from './utils/logger';
 
 const app = express();
@@ -19,6 +20,7 @@ const PORT = process.env.PORT ?? 3000;
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
 app.get('/health', (_req, res) => {
   res.json({ success: true, data: { status: 'ok', app: 'ClashPulse API' } });

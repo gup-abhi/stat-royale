@@ -153,6 +153,8 @@ async function withCache<T>(
   const cached = await redis.get(key);
   if (cached) return JSON.parse(cached) as T;
 
+  logger.debug({ cacheKey: key }, 'Supercell API cache miss');
+
   try {
     const data = await fetcher();
     const serialised = JSON.stringify(data);
