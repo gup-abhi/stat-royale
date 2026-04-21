@@ -12,6 +12,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamList } from '@navigation/types';
 import { usePlayer, usePlayerBattles, usePlayerChests } from '@hooks/usePlayer';
+import { useSavedPlayersStore } from '@store/savedPlayers.store';
+import { useAuthStore } from '@store/auth.store';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
 import { spacing } from '@theme/spacing';
@@ -30,6 +32,11 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
   const { data: player, isLoading, isError, error, refetch, isFetching } = usePlayer(tag);
   const { data: battles = [] } = usePlayerBattles(tag);
   const { data: chests = [] } = usePlayerChests(tag);
+  const { accessToken } = useAuthStore();
+  const { isSaved, save, remove } = useSavedPlayersStore();
+
+  const normalTag = tag.trim().toUpperCase().replace(/^#/, '');
+  const saved = isSaved(normalTag);
 
   const onRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ['player', tag] });
@@ -37,6 +44,18 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
 
   const onShare = async () => {
     await Share.share({ message: `royalestats://player/${tag}` });
+  };
+
+  const onToggleSave = async () => {
+    if (!accessToken) {
+      navigation.navigate('Tabs');
+      return;
+    }
+    if (saved) {
+      await remove(normalTag);
+    } else {
+      await save(normalTag);
+    }
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -54,9 +73,14 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <Text style={styles.backText}>{'‹ Back'}</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onShare} style={styles.shareBtn}>
-          <Text style={styles.shareText}>Share</Text>
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity onPress={onToggleSave} style={styles.saveBtn}>
+            <Text style={styles.saveIcon}>{saved ? '❤️' : '🤍'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onShare} style={styles.shareBtn}>
+            <Text style={styles.shareText}>Share</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -122,6 +146,9 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.lg,
     fontWeight: typography.weights.medium,
   },
+  headerRight: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  saveBtn: { padding: spacing.xs },
+  saveIcon: { fontSize: typography.sizes.xl },
   shareBtn: { padding: spacing.xs },
   shareText: {
     color: colors.accent,

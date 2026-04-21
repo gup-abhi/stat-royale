@@ -8,6 +8,7 @@ import { playersRouter } from './routes/players.routes';
 import { clansRouter } from './routes/clans.routes';
 import { cardsRouter } from './routes/cards.routes';
 import { leaderboardRouter } from './routes/leaderboard.routes';
+import { savedPlayersRouter } from './routes/savedPlayers.routes';
 import { errorHandler } from './middleware/errorHandler.middleware';
 import { logger } from './utils/logger';
 
@@ -27,6 +28,7 @@ app.use('/api/v1/players', playersRouter);
 app.use('/api/v1/clans', clansRouter);
 app.use('/api/v1/cards', cardsRouter);
 app.use('/api/v1/leaderboard', leaderboardRouter);
+app.use('/api/v1/user/saved-players', savedPlayersRouter);
 
 app.use(errorHandler);
 

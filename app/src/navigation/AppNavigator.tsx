@@ -5,6 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { AppTabParamList, AppStackParamList } from './types';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
+import HomeScreen from '@screens/Home';
 import PlayerProfileScreen from '@screens/PlayerProfile';
 import ClanProfileScreen from '@screens/ClanProfile';
 import SearchScreen from '@screens/Search';
@@ -32,7 +33,7 @@ function AppTabs() {
         tabBarLabelStyle: { fontSize: typography.sizes.xs },
       }}
     >
-      <Tab.Screen name="Home" children={() => <Placeholder name="Home" />} />
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="CardDatabase" component={CardDatabaseScreen} />
       <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
