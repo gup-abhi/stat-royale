@@ -9,6 +9,7 @@ import PlayerProfileScreen from '@screens/PlayerProfile';
 import ClanProfileScreen from '@screens/ClanProfile';
 import SearchScreen from '@screens/Search';
 import CardDatabaseScreen from '@screens/CardDatabase';
+import LeaderboardScreen from '@screens/Leaderboard';
 
 function Placeholder({ name }: { name: string }) {
   return (
@@ -34,7 +35,7 @@ function AppTabs() {
       <Tab.Screen name="Home" children={() => <Placeholder name="Home" />} />
       <Tab.Screen name="Search" component={SearchScreen} />
       <Tab.Screen name="CardDatabase" component={CardDatabaseScreen} />
-      <Tab.Screen name="Leaderboard" children={() => <Placeholder name="Leaderboard" />} />
+      <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
       <Tab.Screen name="Settings" children={() => <Placeholder name="Settings" />} />
     </Tab.Navigator>
   );
