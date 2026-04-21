@@ -24,7 +24,18 @@ export const clansController = {
     // TODO: MVP-024 warlog (V1 feature, not in MVP acceptance criteria)
   },
 
-  search: async (_req: Request, _res: Response, _next: NextFunction): Promise<void> => {
-    // TODO: MVP-025
+  search: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { name, type, minTrophies, locationId } = req.query;
+      const results = await clansService.searchClans({
+        name: name as string | undefined,
+        type: type as string | undefined,
+        minTrophies: minTrophies ? Number(minTrophies) : undefined,
+        locationId: locationId ? Number(locationId) : undefined,
+      });
+      res.json({ success: true, data: results });
+    } catch (err) {
+      next(err);
+    }
   },
 };
