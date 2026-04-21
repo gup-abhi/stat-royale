@@ -10,6 +10,7 @@ import { cardsRouter } from './routes/cards.routes';
 import { leaderboardRouter } from './routes/leaderboard.routes';
 import { savedPlayersRouter } from './routes/savedPlayers.routes';
 import { errorHandler } from './middleware/errorHandler.middleware';
+import { rateLimitMiddleware } from './middleware/rateLimit.middleware';
 import { logger } from './utils/logger';
 
 const app = express();
@@ -22,6 +23,8 @@ app.use(express.json());
 app.get('/health', (_req, res) => {
   res.json({ success: true, data: { status: 'ok', app: 'ClashPulse API' } });
 });
+
+app.use(rateLimitMiddleware);
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/players', playersRouter);
