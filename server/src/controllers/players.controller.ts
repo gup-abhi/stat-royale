@@ -11,11 +11,21 @@ export const playersController = {
     }
   },
 
-  getBattles: async (_req: Request, _res: Response, _next: NextFunction): Promise<void> => {
-    // TODO: MVP-022
+  getBattles: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const battles = await playersService.getPlayerBattles(req.params.tag);
+      res.json({ success: true, data: battles });
+    } catch (err) {
+      next(err);
+    }
   },
 
-  getChests: async (_req: Request, _res: Response, _next: NextFunction): Promise<void> => {
-    // TODO: MVP-023
+  getChests: async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const chests = await playersService.getPlayerChests(req.params.tag);
+      res.json({ success: true, data: chests });
+    } catch (err) {
+      next(err);
+    }
   },
 };

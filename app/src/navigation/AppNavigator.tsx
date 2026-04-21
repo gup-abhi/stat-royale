@@ -1,11 +1,17 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { View, Text, StyleSheet } from 'react-native';
-import { AppTabParamList } from './types';
+import { AppTabParamList, AppStackParamList } from './types';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
+import HomeScreen from '@screens/Home';
+import PlayerProfileScreen from '@screens/PlayerProfile';
+import ClanProfileScreen from '@screens/ClanProfile';
+import SearchScreen from '@screens/Search';
+import CardDatabaseScreen from '@screens/CardDatabase';
+import LeaderboardScreen from '@screens/Leaderboard';
 
-// Placeholder screens — replaced in MVP-021+
 function Placeholder({ name }: { name: string }) {
   return (
     <View style={styles.placeholder}>
@@ -16,7 +22,7 @@ function Placeholder({ name }: { name: string }) {
 
 const Tab = createBottomTabNavigator<AppTabParamList>();
 
-export default function AppNavigator() {
+function AppTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -27,16 +33,33 @@ export default function AppNavigator() {
         tabBarLabelStyle: { fontSize: typography.sizes.xs },
       }}
     >
-      <Tab.Screen name="Home" children={() => <Placeholder name="Home" />} />
-      <Tab.Screen name="Search" children={() => <Placeholder name="Search" />} />
-      <Tab.Screen name="CardDatabase" children={() => <Placeholder name="Cards" />} />
-      <Tab.Screen name="Leaderboard" children={() => <Placeholder name="Leaderboard" />} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="CardDatabase" component={CardDatabaseScreen} />
+      <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
       <Tab.Screen name="Settings" children={() => <Placeholder name="Settings" />} />
     </Tab.Navigator>
   );
 }
 
+const AppStack = createStackNavigator<AppStackParamList>();
+
+export default function AppNavigator() {
+  return (
+    <AppStack.Navigator screenOptions={{ headerShown: false }}>
+      <AppStack.Screen name="Tabs" component={AppTabs} />
+      <AppStack.Screen name="PlayerProfile" component={PlayerProfileScreen} />
+      <AppStack.Screen name="ClanProfile" component={ClanProfileScreen} />
+    </AppStack.Navigator>
+  );
+}
+
 const styles = StyleSheet.create({
-  placeholder: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background },
+  placeholder: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
   text: { color: colors.text.secondary, fontSize: typography.sizes.lg },
 });
