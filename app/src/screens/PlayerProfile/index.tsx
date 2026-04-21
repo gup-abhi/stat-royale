@@ -11,7 +11,7 @@ import {
 import { useQueryClient } from '@tanstack/react-query';
 import { StackScreenProps } from '@react-navigation/stack';
 import { AppStackParamList } from '@navigation/types';
-import { usePlayer } from '@hooks/usePlayer';
+import { usePlayer, usePlayerBattles } from '@hooks/usePlayer';
 import { colors } from '@theme/colors';
 import { typography } from '@theme/typography';
 import { spacing } from '@theme/spacing';
@@ -19,6 +19,7 @@ import LoadingSpinner from '@components/LoadingSpinner';
 import ErrorState from '@components/ErrorState';
 import StatsCard from './components/StatsCard';
 import CardCollection from './components/CardCollection';
+import BattleLog from './components/BattleLog';
 
 type Props = StackScreenProps<AppStackParamList, 'PlayerProfile'>;
 
@@ -26,6 +27,7 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
   const { tag } = route.params;
   const queryClient = useQueryClient();
   const { data: player, isLoading, isError, error, refetch, isFetching } = usePlayer(tag);
+  const { data: battles = [] } = usePlayerBattles(tag);
 
   const onRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ['player', tag] });
@@ -67,6 +69,7 @@ export default function PlayerProfileScreen({ route, navigation }: Props) {
       >
         <StatsCard player={player} />
         <SeasonSection player={player} />
+        <BattleLog battles={battles} />
         <CardCollection cards={player.cards} />
       </ScrollView>
     </View>
